@@ -20,32 +20,83 @@
         }
         main {
             display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
         }
-        section {
-            flex: 0 1 calc(100% - 40px);
+        .hall {
+            width: 80%;
+            max-width: 800px;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 10px;
             text-align: center;
+            position: relative;
         }
-        .seat {
+        .stage {
+            width: 100%;
+            height: 50px;
+            background-color: #555;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .asset {
             display: inline-block;
-            width: 40px;
-            height: 40px;
+            width: 60px;
+            height: 60px;
             background-color: #ccc;
             border-radius: 50%;
             margin: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        .seat:hover {
+        .asset:hover {
             background-color: #b3b3b3;
+        }
+        .seats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .asset-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .asset-button {
+            display: inline-block;
+            width: 120px;
+            height: 50px;
+            line-height: 50px;
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .asset-button:hover {
+            opacity: 0.8;
+        }
+        .hvac {
+            background-color: #1e90ff;
+        }
+        .fire-alarm {
+            background-color: #ff4500;
+        }
+        .lighting {
+            background-color: #32cd32;
         }
         footer {
             background-color: #333;
@@ -80,12 +131,27 @@
     </header>
     
     <main>
-        <section id="level-1">
-            <h2>Level 1</h2>
+        <div class="hall">
+            <div class="stage">Stage</div>
             <div class="seats" data-level="1">
-                <!-- Seating plan for Level 1 will be generated here -->
+                <!-- Seating plan for Level 1 -->
+                <div class="asset seat" data-seat="1" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP5.jpg">1</div>
+                <div class="asset seat" data-seat="2" data-photo="https://lh3.googleusercontent.com/p/AF1QipPRCdAYsolxx7sHDi-1QhSL48c__sEAnyxZlqe9=s1600-w400">2</div>
+                <div class="asset seat" data-seat="3" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP7.jpg">3</div>
+                <div class="asset seat" data-seat="4" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP8.jpg">4</div>
+                <div class="asset seat" data-seat="5" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP9.jpg">5</div>
+                <div class="asset seat" data-seat="6" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP10.jpg">6</div>
+                <div class="asset seat" data-seat="7" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP11.jpg">7</div>
+                <div class="asset seat" data-seat="8" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP12.jpg">8</div>
+                <div class="asset seat" data-seat="9" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP13.jpg">9</div>
+                <div class="asset seat" data-seat="10" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP14.jpg">10</div>
             </div>
-        </section>
+            <div class="asset-buttons">
+                <button class="asset-button hvac" data-photo="https://example.com/hvac.jpg">HVAC</button>
+                <button class="asset-button fire-alarm" data-photo="https://example.com/fire-alarm.jpg">Fire Alarm</button>
+                <button class="asset-button lighting" data-photo="https://example.com/lighting.jpg">Lighting</button>
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -93,53 +159,15 @@
     </footer>
 
     <div class="photo-overlay" id="photoOverlay">
-        <img src="" alt="Seat Photo" id="seatPhoto">
+        <img src="" alt="Asset Photo" id="assetPhoto">
     </div>
 
     <script>
-        var seatsContainer = document.querySelector('.seats');
-
-        // Dummy data for seating plan
-        var seats = Array.from({ length: 15 }, (_, index) => index + 1);
-
-        // Actual photo URLs for each seat
-        var photoURLs = [
-            'https://i.imgur.com/QBZh5H2.jpg', // Direct URL for photo 1 from Imgur
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500',
-            'https://via.placeholder.com/500'
-        ];
-
-        // Populate seating plan with seats
-        seats.forEach(function(seatNumber, index) {
-            var seat = document.createElement('div');
-            seat.className = 'seat';
-            seat.textContent = seatNumber;
-
-            // Associate each seat with its corresponding photo URL
-            seat.addEventListener('click', function() {
-                showSeatPhoto(photoURLs[index]);
-            });
-
-            seatsContainer.appendChild(seat);
-        });
-
         // Function to show photo overlay
-        function showSeatPhoto(photoURL) {
+        function showAssetPhoto(photo) {
             var photoOverlay = document.getElementById('photoOverlay');
-            var seatPhoto = document.getElementById('seatPhoto');
-            seatPhoto.src = photoURL;
+            var assetPhoto = document.getElementById('assetPhoto');
+            assetPhoto.src = photo;
             photoOverlay.style.display = 'block';
         }
 
@@ -148,6 +176,18 @@
             if (event.target === this) {
                 this.style.display = 'none';
             }
+        });
+
+        // Add click event listener to seats and asset buttons
+        document.querySelectorAll('.asset, .asset-button').forEach(function(asset) {
+            asset.addEventListener('click', function(event) {
+                var target = event.target;
+                var photo = target.dataset.photo;
+
+                if (photo) {
+                    showAssetPhoto(photo);
+                }
+            });
         });
     </script>
 </body>
