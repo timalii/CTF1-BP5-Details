@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DETAR PUTRA Seating Details</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        section {
+            flex: 0 1 calc(100% - 40px);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            text-align: center;
+        }
+        .seat {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .seat:hover {
+            background-color: #b3b3b3;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        /* New CSS for displaying photo */
+        .photo-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+        .photo-overlay img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 80%;
+            max-height: 80%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DETAR PUTRA Seating Details</h1>
+    </header>
+    
+    <main>
+        <section id="level-1">
+            <h2>Level 1</h2>
+            <div class="seats" data-level="1">
+                <!-- Seating plan for Level 1 will be generated here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 DETAR PUTRA Seating Details. All rights reserved.</p>
+    </footer>
+
+    <!-- New HTML for photo overlay -->
+    <div class="photo-overlay" id="photoOverlay">
+        <img src="" alt="Seat Photo" id="seatPhoto">
+    </div>
+
+    <script>
+        // JavaScript code
+        var seatsContainer = document.querySelector('.seats');
+
+        // Dummy data for seating plan
+        var seats = Array.from({ length: 15 }, (_, index) => index + 1);
+
+        // Actual photo URLs for each seat
+        var photoURLs = [
+            'https://drive.google.com/uc?export=view&id=1V3nVFCKO1P6zyGsXswm9oTVBjfXbm6m4', // Direct URL for photo 1
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500',
+            'https://via.placeholder.com/500'
+        ];
+
+        // Populate seating plan with seats
+        seats.forEach(function(seatNumber, index) {
+            var seat = document.createElement('div');
+            seat.className = 'seat';
+            seat.textContent = seatNumber;
+
+            // Associate each seat with its corresponding photo URL
+            seat.addEventListener('click', function() {
+                showSeatPhoto(photoURLs[index]);
+            });
+
+            seatsContainer.appendChild(seat);
+        });
+
+        // Function to show photo overlay
+        function showSeatPhoto(photoURL) {
+            var photoOverlay = document.getElementById('photoOverlay');
+            var seatPhoto = document.getElementById('seatPhoto');
+            seatPhoto.src = photoURL;
+            photoOverlay.style.display = 'block';
+        }
+
+        // Close photo overlay when clicking outside the photo
+        document.getElementById('photoOverlay').addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
