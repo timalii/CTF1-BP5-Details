@@ -1,194 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DETAR PUTRA Seating Details</title>
+    <title>Central Teaching Facilities 1, BP5 Details</title>
     <style>
-        /* CSS styles */
         body {
             font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
             background-color: #f4f4f4;
         }
-        header {
-            background-color: #333;
-            color: #fff;
+        .container {
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
+            border-radius: 10px;
             text-align: center;
         }
-        main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-        .hall {
-            width: 80%;
-            max-width: 800px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            position: relative;
-        }
-        .stage {
-            width: 100%;
-            height: 50px;
-            background-color: #555;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
-        .asset {
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            background-color: #ccc;
+        .seat, .asset, .stage {
+            border: 2px solid #333;
             border-radius: 50%;
-            margin: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .asset:hover {
-            background-color: #b3b3b3;
-        }
-        .seats {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .asset-buttons {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-        .asset-button {
             display: inline-block;
-            width: 120px;
+            width: 50px;
             height: 50px;
             line-height: 50px;
-            margin: 5px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 25px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: bold;
-            color: #fff;
+            margin: 10px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .asset-button:hover {
-            opacity: 0.8;
-        }
-        .hvac {
-            background-color: #1e90ff;
-        }
-        .fire-alarm {
-            background-color: #ff4500;
-        }
-        .lighting {
-            background-color: #32cd32;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
             text-align: center;
-            width: 100%;
+            vertical-align: middle;
         }
-        .photo-overlay {
+        .stage {
+            width: 540px;
+            height: 50px;
+            border-radius: 10px;
+            background-color: #6c757d;
+            color: white;
+            line-height: 50px;
+            font-weight: bold;
+        }
+        .seat:hover, .asset:hover {
+            background-color: #ddd;
+        }
+        .button {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .map-container {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .popup {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-        }
-        .photo-overlay img {
-            position: absolute;
-            top: 50%;
             left: 50%;
+            top: 50%;
             transform: translate(-50%, -50%);
-            max-width: 80%;
-            max-height: 80%;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .popup img {
+            max-width: 100%;
+            height: auto;
+        }
+        .close-btn {
+            cursor: pointer;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>DETAR PUTRA Seating Details</h1>
-    </header>
-    
-    <main>
-        <div class="hall">
-            <div class="stage">Stage</div>
-            <div class="seats" data-level="1">
-                <!-- Seating plan for Level 1 -->
-                <div class="asset seat" data-seat="1" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP5.jpg">1</div>
-                <div class="asset seat" data-seat="2" data-photo="https://lh3.googleusercontent.com/p/AF1QipPRCdAYsolxx7sHDi-1QhSL48c__sEAnyxZlqe9=s1600-w400">2</div>
-                <div class="asset seat" data-seat="3" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP7.jpg">3</div>
-                <div class="asset seat" data-seat="4" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP8.jpg">4</div>
-                <div class="asset seat" data-seat="5" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP9.jpg">5</div>
-                <div class="asset seat" data-seat="6" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP10.jpg">6</div>
-                <div class="asset seat" data-seat="7" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP11.jpg">7</div>
-                <div class="asset seat" data-seat="8" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP12.jpg">8</div>
-                <div class="asset seat" data-seat="9" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP13.jpg">9</div>
-                <div class="asset seat" data-seat="10" data-photo="https://www.corporate.unimas.my/images/DetarRU/DP14.jpg">10</div>
-            </div>
-            <div class="asset-buttons">
-                <button class="asset-button hvac" data-photo="https://example.com/hvac.jpg">HVAC</button>
-                <button class="asset-button fire-alarm" data-photo="https://example.com/fire-alarm.jpg">Fire Alarm</button>
-                <button class="asset-button lighting" data-photo="https://example.com/lighting.jpg">Lighting</button>
-            </div>
+    <div class="container">
+        <h1>Central Teaching Facilities 1, BP5 Details</h1>
+        <div class="stage">Stage</div>
+        <div>
+            <div class="seat" onclick="showDetails(1)">1</div>
+            <div class="seat" onclick="showDetails(2)">2</div>
+            <div class="seat" onclick="showDetails(3)">3</div>
+            <div class="seat" onclick="showDetails(4)">4</div>
+            <div class="seat" onclick="showDetails(5)">5</div>
+            <div class="seat" onclick="showDetails(6)">6</div>
+            <div class="seat" onclick="showDetails(7)">7</div>
+            <div class="seat" onclick="showDetails(8)">8</div>
+            <div class="seat" onclick="showDetails(9)">9</div>
+            <div class="seat" onclick="showDetails(10)">10</div>
         </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 DETAR PUTRA Seating Details. All rights reserved.</p>
-    </footer>
-
-    <div class="photo-overlay" id="photoOverlay">
-        <img src="" alt="Asset Photo" id="assetPhoto">
+        <div>
+            <div class="button" style="background-color: #007bff;" onclick="alert('HVAC System Details')">HVAC System</div>
+            <div class="button" style="background-color: #28a745;" onclick="alert('Fire Alarm System Details')">Fire Alarm System</div>
+            <div class="button" style="background-color: #ffc107;" onclick="alert('Lighting System Details')">Lighting System</div>
+        </div>
+        <div id="map" class="map-container"></div>
+        <button class="button" onclick="calculateAndDisplayRoute()">Navigate to Central Teaching Facilities 1, BP5</button>
+    </div>
+    
+    <div id="popup" class="popup">
+        <img id="popup-img" src="" alt="Seat Image">
+        <button class="close-btn" onclick="closePopup()">Close</button>
     </div>
 
     <script>
-        // Function to show photo overlay
-        function showAssetPhoto(photo) {
-            var photoOverlay = document.getElementById('photoOverlay');
-            var assetPhoto = document.getElementById('assetPhoto');
-            assetPhoto.src = photo;
-            photoOverlay.style.display = 'block';
+        function showDetails(seatNumber) {
+            const popup = document.getElementById('popup');
+            const popupImg = document.getElementById('popup-img');
+
+            if (seatNumber === 1) {
+                popupImg.src = "https://www.corporate.unimas.my/images/DetarRU/DP5.jpg";
+            } else if (seatNumber === 2) {
+                popupImg.src = "https://lh3.googleusercontent.com/p/AF1QipPRCdAYsolxx7sHDi-1QhSL48c__sEAnyxZlqe9=s1600-w400";
+            } else {
+                popupImg.src = "";
+            }
+
+            if (popupImg.src) {
+                popup.style.display = 'block';
+            }
         }
 
-        // Close photo overlay when clicking outside the photo
-        document.getElementById('photoOverlay').addEventListener('click', function(event) {
-            if (event.target === this) {
-                this.style.display = 'none';
-            }
-        });
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
 
-        // Add click event listener to seats and asset buttons
-        document.querySelectorAll('.asset, .asset-button').forEach(function(asset) {
-            asset.addEventListener('click', function(event) {
-                var target = event.target;
-                var photo = target.dataset.photo;
-
-                if (photo) {
-                    showAssetPhoto(photo);
-                }
+        function initMap() {
+            const ctf1bp5 = { lat: 1.467361, lng: 110.428611 };
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: ctf1bp5,
             });
-        });
+            const marker = new google.maps.Marker({
+                position: ctf1bp5,
+                map: map,
+                title: "Central Teaching Facilities 1, BP5",
+            });
+        }
+
+        function calculateAndDisplayRoute() {
+            const directionsService = new google.maps.DirectionsService();
+            const directionsRenderer = new google.maps.DirectionsRenderer();
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: { lat: 1.467361, lng: 110.428611 }
+            });
+            directionsRenderer.setMap(map);
+            directionsService.route(
+                {
+                    origin: { lat: 1.467361, lng: 110.428611 }, // User's current location should be dynamically obtained
+                    destination: { lat: 1.467361, lng: 110.428611 },
+                    travelMode: google.maps.TravelMode.DRIVING
+                },
+                (response, status) => {
+                    if (status === "OK") {
+                        directionsRenderer.setDirections(response);
+                    } else {
+                        window.alert("Directions request failed due to " + status);
+                    }
+                }
+            );
+        }
     </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClf-ewysqbUJtlVHzYtMcO-S-QSgYUcdI&callback=initMap"></script>
 </body>
 </html>
