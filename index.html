@@ -1,23 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Central Teaching Facilities 1, BP5 Details</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
-            background-color: #f4f4f4;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; /* Prevent body scroll */
         }
         .container {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto; /* Enable vertical scroll */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+        .content {
             background-color: #ffffff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             border-radius: 10px;
             text-align: center;
+            margin-top: 20px;
         }
         .seat, .asset, .stage {
             border: 2px solid #333;
@@ -26,7 +36,7 @@
             width: 50px;
             height: 50px;
             line-height: 50px;
-            margin: 10px;
+            margin: 5px;
             cursor: pointer;
             text-align: center;
             vertical-align: middle;
@@ -39,6 +49,7 @@
             color: white;
             line-height: 50px;
             font-weight: bold;
+            margin-bottom: 20px;
         }
         .seat:hover, .asset:hover {
             background-color: #ddd;
@@ -73,10 +84,13 @@
             padding: 20px;
             border-radius: 10px;
             text-align: center;
+            z-index: 1000;
         }
         .popup img {
-            max-width: 100%;
+            max-width: 90%; /* Set a maximum width for the images */
+            max-height: 80vh; /* Set a maximum height for the images */
             height: auto;
+            margin-top: 10px; /* Add margin to push the image down below the close button */
         }
         .close-btn {
             cursor: pointer;
@@ -85,99 +99,263 @@
             border: none;
             padding: 5px 10px;
             border-radius: 5px;
-            margin-top: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .seats-container-wrapper {
+            max-height: 400px; /* Adjust as needed */
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .ar-container {
+            width: 600px;
+            height: 400px;
+            background-color: #000; /* Set a background color */
+        }
+        .model-viewer-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .model-viewer-button:hover {
+            background-color: #0056b3;
         }
     </style>
+    <!-- Include A-Frame library -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe-orbit-controls-component.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Central Teaching Facilities 1, BP5 Details</h1>
-        <div class="stage">Stage</div>
-        <div>
-            <div class="seat" onclick="showDetails(1)">1</div>
-            <div class="seat" onclick="showDetails(2)">2</div>
-            <div class="seat" onclick="showDetails(3)">3</div>
-            <div class="seat" onclick="showDetails(4)">4</div>
-            <div class="seat" onclick="showDetails(5)">5</div>
-            <div class="seat" onclick="showDetails(6)">6</div>
-            <div class="seat" onclick="showDetails(7)">7</div>
-            <div class="seat" onclick="showDetails(8)">8</div>
-            <div class="seat" onclick="showDetails(9)">9</div>
-            <div class="seat" onclick="showDetails(10)">10</div>
+        <div class="content">
+            <h1>Central Teaching Facilities 1, BP5 Details</h1>
+            <div class="stage" onclick="showSystemDetails('stage')">Stage</div>
+            <div class="seats-container-wrapper">
+                <div id="seats-container"></div>
+            </div>
+            <div>
+                <div class="button" style="background-color: #007bff;" onclick="showSystemDetails('hvac')">HVAC System</div>
+                <div class="button" style="background-color: #28a745;" onclick="showSystemDetails('pa_system')">PA System</div>
+                <div class="button" style="background-color: #ffc107;" onclick="showSystemDetails('switch_box')">Switch Box</div>
+                <div class="button" style="background-color: #ff5733;" onclick="showSystemDetails('fire_extinguisher')">Fire Extinguisher</div>
+                <div class="button" style="background-color: #c70039;" onclick="showSystemDetails('fire_fighting_hose')">Fire Fighting Hose</div>
+            </div>
+            <div id="map" class="map-container"></div>
+            <div>
+                <button class="button" onclick="openGoogleMapsNavigation()">Navigate</button>
+            </div>
+            <div class="model-viewer-button" onclick="toggleModelViewer()">Show/Hide 3D Model Viewer</div>
         </div>
-        <div>
-            <div class="button" style="background-color: #007bff;" onclick="alert('HVAC System Details')">HVAC System</div>
-            <div class="button" style="background-color: #28a745;" onclick="alert('Fire Alarm System Details')">Fire Alarm System</div>
-            <div class="button" style="background-color: #ffc107;" onclick="alert('Lighting System Details')">Lighting System</div>
-        </div>
-        <div id="map" class="map-container"></div>
-        <button class="button" onclick="calculateAndDisplayRoute()">Navigate to Central Teaching Facilities 1, BP5</button>
     </div>
     
     <div id="popup" class="popup">
-        <img id="popup-img" src="" alt="Seat Image">
+        <div id="ar-container" class="ar-container">
+            <!-- A-Frame scene -->
+            <a-scene embedded>
+                <a-assets>
+                    <a-asset-item id="model" src="models/bp5.glb"></a-asset-item>
+                </a-assets>
+                <a-entity gltf-model="#model" position="0 0 0" scale="0.1 0.1 0.1"></a-entity>
+                <a-camera
+                    position="0 1.6 3"
+                    orbit-controls="
+                        target: 0 1.6 0;
+                        enableDamping: true;
+                        dampingFactor: 0.25;
+                        rotateSpeed: 0.3;
+                        zoomSpeed: 0.6;
+                        panSpeed: 0.2;
+                        screenSpacePanning: true;
+                        keyPanSpeed: 7;
+                        minDistance: 0.5;
+                        maxDistance: 10;
+                        enablePan: true;
+                        mouseButtons: { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.ROTATE, RIGHT: THREE.MOUSE.PAN };
+                    "
+                ></a-camera>
+            </a-scene>
+        </div>
+        <button class="close-btn" onclick="closeModelViewer()">Close</button>
+    </div>
+
+    <div id="popup-seat" class="popup">
         <button class="close-btn" onclick="closePopup()">Close</button>
+        <img id="popup-img" src="" alt="Seat Image">
     </div>
 
     <script>
+        let map;
+        let directionsService;
+        let directionsRenderer;
+        let userLocation;
+        const destination = { lat: 1.467361, lng: 110.428611 };
+
         function showDetails(seatNumber) {
-            const popup = document.getElementById('popup');
+            const popup = document.getElementById('popup-seat');
             const popupImg = document.getElementById('popup-img');
+            popupImg.src = `images/seat${seatNumber}.jpg`;
 
-            if (seatNumber === 1) {
-                popupImg.src = "https://www.corporate.unimas.my/images/DetarRU/DP5.jpg";
-            } else if (seatNumber === 2) {
-                popupImg.src = "https://lh3.googleusercontent.com/p/AF1QipPRCdAYsolxx7sHDi-1QhSL48c__sEAnyxZlqe9=s1600-w400";
-            } else {
-                popupImg.src = "";
-            }
+            popup.style.display = 'block';
+        }
 
-            if (popupImg.src) {
-                popup.style.display = 'block';
-            }
+        function showSystemDetails(system) {
+            const popup = document.getElementById('popup-seat');
+            const popupImg = document.getElementById('popup-img');
+            popupImg.src = `images/${system}.jpg`;
+
+            popup.style.display = 'block';
         }
 
         function closePopup() {
+            document.getElementById('popup-seat').style.display = 'none';
+        }
+
+        function toggleModelViewer() {
+            const popup = document.getElementById('popup');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function closeModelViewer() {
             document.getElementById('popup').style.display = 'none';
         }
 
         function initMap() {
-            const ctf1bp5 = { lat: 1.467361, lng: 110.428611 };
-            const map = new google.maps.Map(document.getElementById("map"), {
+            console.log("Initializing map...");
+            map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 15,
-                center: ctf1bp5,
+                center: destination,
             });
             const marker = new google.maps.Marker({
-                position: ctf1bp5,
+                position: destination,
                 map: map,
                 title: "Central Teaching Facilities 1, BP5",
             });
+
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+
+            getLocation();
+            watchLocation();
         }
 
-        function calculateAndDisplayRoute() {
-            const directionsService = new google.maps.DirectionsService();
-            const directionsRenderer = new google.maps.DirectionsRenderer();
-            const map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 15,
-                center: { lat: 1.467361, lng: 110.428611 }
-            });
-            directionsRenderer.setMap(map);
-            directionsService.route(
-                {
-                    origin: { lat: 1.467361, lng: 110.428611 }, // User's current location should be dynamically obtained
-                    destination: { lat: 1.467361, lng: 110.428611 },
-                    travelMode: google.maps.TravelMode.DRIVING
-                },
-                (response, status) => {
-                    if (status === "OK") {
-                        directionsRenderer.setDirections(response);
-                    } else {
-                        window.alert("Directions request failed due to " + status);
-                    }
-                }
-            );
+        function getLocation() {
+            if (navigator.geolocation) {
+                console.log("Geolocation is supported. Requesting location...");
+                navigator.geolocation.getCurrentPosition(position => {
+                    userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    console.log("User location obtained:", userLocation);
+                    calculateAndDisplayRoute(userLocation, destination);
+                }, error => {
+                    handleGeolocationError(error);
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 30000, // 30 seconds
+                    maximumAge: 0
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+                console.log("Geolocation is not supported by this browser.");
+            }
         }
+
+        function watchLocation() {
+            if (navigator.geolocation) {
+                console.log("Watching location...");
+                navigator.geolocation.watchPosition(position => {
+                    userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        accuracy: position.coords.accuracy
+                    };
+                    console.log("User location updated:", userLocation);
+                }, error => {
+                    handleGeolocationError(error);
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 30000, // 30 seconds
+                    maximumAge: 0
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function handleGeolocationError(error) {
+            console.log("Geolocation error code:", error.code);
+            console.log("Geolocation error message:", error.message);
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    console.log("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    console.log("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    console.log("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    console.log("An unknown error occurred.");
+                    break;
+            }
+        }
+
+        function calculateAndDisplayRoute(origin, destination) {
+            const request = {
+                origin: origin,
+                destination: destination,
+                travelMode: 'DRIVING'
+            };
+            directionsService.route(request, function(result, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(result);
+                    console.log("Directions request succeeded:", result);
+                } else {
+                    console.error('Directions request failed:', status);
+                }
+            });
+        }
+
+        function openGoogleMapsNavigation() {
+            if (userLocation) {
+                const url = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${destination.lat},${destination.lng}&travelmode=driving`;
+                window.open(url, '_blank');
+            } else {
+                alert('User location not available. Please enable geolocation and refresh the page.');
+                console.log('User location not available. Please enable geolocation and refresh the page.');
+            }
+        }
+
+        function createSeats() {
+            const seatsContainer = document.getElementById('seats-container');
+            for (let i = 1; i <= 120; i++) {
+                const seat = document.createElement('div');
+                seat.className = 'seat';
+                seat.textContent = i;
+                seat.onclick = () => showDetails(i);
+                seatsContainer.appendChild(seat);
+                if (i % 10 === 0) {
+                    const br = document.createElement('br');
+                    seatsContainer.appendChild(br);
+                }
+            }
+        }
+
+        createSeats();
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClf-ewysqbUJtlVHzYtMcO-S-QSgYUcdI&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtW0TAQsKfaHnPtTTNtTBxkPgAIGGzMBQ&callback=initMap"></script>
 </body>
 </html>
