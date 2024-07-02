@@ -158,7 +158,7 @@
             <!-- A-Frame scene -->
             <a-scene embedded>
                 <a-assets>
-                    <a-asset-item id="model" src="models/bp5.glb"></a-asset-item>
+                    <a-asset-item id="model" src="https://timalii.github.io/AR-facility-management/models/bp5.glb"></a-asset-item>
                 </a-assets>
                 <a-entity gltf-model="#model" position="0 0 0" scale="0.1 0.1 0.1"></a-entity>
                 <a-camera
@@ -185,7 +185,7 @@
 
     <div id="popup-seat" class="popup">
         <button class="close-btn" onclick="closePopup()">Close</button>
-        <img id="popup-img" src="" alt="Seat Image">
+        <img id="popup-img" src="" alt="Asset Image">
     </div>
 
     <script>
@@ -198,7 +198,7 @@
         function showDetails(seatNumber) {
             const popup = document.getElementById('popup-seat');
             const popupImg = document.getElementById('popup-img');
-            popupImg.src = `images/seat${seatNumber}.jpg`;
+            popupImg.src = `https://timalii.github.io/AR-facility-management/images/seat${seatNumber}.jpg`;
 
             popup.style.display = 'block';
         }
@@ -206,7 +206,7 @@
         function showSystemDetails(system) {
             const popup = document.getElementById('popup-seat');
             const popupImg = document.getElementById('popup-img');
-            popupImg.src = `images/${system}.jpg`;
+            popupImg.src = `https://timalii.github.io/AR-facility-management/images/${system}.jpg`;
 
             popup.style.display = 'block';
         }
